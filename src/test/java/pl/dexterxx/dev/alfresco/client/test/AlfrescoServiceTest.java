@@ -32,11 +32,11 @@ import java.util.Map;
 // TODO(dexterxx): migrate to testng
 public class AlfrescoServiceTest {
 
-    private static final String BASE_URL = "http://localhost:8080";
+    private static final String BASE_URL = "http://localhost:5080";
     private static final String AUTH_TICKET = "TICKET_6545adf481da58bb87490df0a7b75300d74921f5";
 
     public static void main(final String args[]) {
-        // testLogin(getCredentials());
+        testLoginValidateLogout(getCredentials());
         // testGetUsers();
         // testGetGroups();
         // testGetGroup();
@@ -52,7 +52,7 @@ public class AlfrescoServiceTest {
         // testAdvancedSearch();
         // testUploadContent();
         // testStoreMetadata();
-        testSearchFolder();
+        // testSearchFolder();
     }
 
     private static void testSearchFolder() {

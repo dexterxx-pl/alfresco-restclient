@@ -5,6 +5,7 @@ import pl.dexterxx.dev.alfresco.client.Service;
 import pl.dexterxx.dev.alfresco.dto.AuthResponse;
 import pl.dexterxx.dev.alfresco.dto.Credentials;
 import pl.dexterxx.dev.alfresco.dto.error.ServiceResponse;
+import pl.dexterxx.dev.alfresco.dto.util.AlfrescoDtoUtil;
 import pl.dexterxx.dev.alfresco.exception.AuthenticationException;
 import pl.dexterxx.dev.alfresco.resource.AuthResource;
 
@@ -77,7 +78,12 @@ public class AuthService extends Service<AuthResource> {
      * @throws AuthenticationException the authentication exception
      */
     public String validateTicket(final String authTicket) throws AuthenticationException {
-        return resourceProxy.validateTicket(authTicket, authTicket, "xml");
+        String xml = resourceProxy.validateTicket(authTicket, authTicket, "xml");
+        try {
+            return AlfrescoDtoUtil.extractTicketFromXml(xml);
+        } catch (Exception e) {
+            throw new AuthenticationException("Parse token problem...");
+        }
     }
 
 }

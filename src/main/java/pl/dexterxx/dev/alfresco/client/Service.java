@@ -2,6 +2,7 @@ package pl.dexterxx.dev.alfresco.client;
 
 import feign.Feign;
 import feign.Request;
+import feign.codec.Decoder;
 import feign.error.AnnotationErrorDecoder;
 import feign.form.FormEncoder;
 import feign.jackson.JacksonDecoder;
@@ -10,6 +11,11 @@ import feign.jaxrs.JAXRSContract;
 import feign.slf4j.Slf4jLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.dexterxx.dev.alfresco.commons.MediaType;
+import pl.dexterxx.dev.alfresco.feign.MultipleDecoder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The Class Service.
@@ -43,6 +49,12 @@ public abstract class Service<R extends Resource> {
      */
     private static final int HTTP_CONNECTION_TIMEOUT = 10 * 1000;
 
+    /**
+     * Contains supported by client media types.
+     * In out alfresco case we must support JSON and XML.
+     */
+    private Map<MediaType, Decoder> supportedMediaTypes = new HashMap<>();
+
     // TODO(dexterxx)
     //static {
     //    initializeProviderFactory();
@@ -54,6 +66,9 @@ public abstract class Service<R extends Resource> {
      * @param restBaseUri the rest base uri
      */
     public Service(final String restBaseUri) {
+        this.supportedMediaTypes.put(MediaType.APPLICATION_XML_TYPE, new Decoder.Default()); // StringDecoder
+        this.supportedMediaTypes.put(MediaType.APPLICATION_JSON_TYPE, new JacksonDecoder());
+
         this.restBaseUri = restBaseUri;
         this.resourceProxy = getResourceProxy(getResourceClass(), restBaseUri);
     }
@@ -117,7 +132,7 @@ public abstract class Service<R extends Resource> {
                 .options(new Request.Options(HTTP_CONNECTION_TIMEOUT, HTTP_SOCKET_TIMEOUT))
                 .errorDecoder(AnnotationErrorDecoder.builderFor(clazz).build())
                 .encoder(new FormEncoder(new JacksonEncoder()))
-                .decoder(new JacksonDecoder())
+                .decoder(new MultipleDecoder(supportedMediaTypes, MediaType.APPLICATION_XML_TYPE))
                 .target(clazz, serverUri);
     }
 
