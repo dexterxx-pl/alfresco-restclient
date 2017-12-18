@@ -11,6 +11,8 @@ It's fork of [techblue/alfresco-restclient](https://github.com/techblue/alfresco
 * [TODO] Migrates test to real unit tests
 * Makes some freshness, cleanup etc. ;)
 
+**It may not be compatible with base project** and don't expect it will ever be.
+
 ## Maven and releases
 
 Not published yet and it's **not ready for production** use, be patient.
@@ -35,7 +37,7 @@ private void makeSomeStuff() {
     AuthResponse authResponse = authService.login();
     String token = authResponse.getAuthenticationData().getAuthenticationToken();
 
-    // Let's get node with our token
+    // Let's get node content with our token
     String filePath = "workspace://SpacesStore/6cffe1dd-d4aa-4770-b371-7c9b4c808cc9";
     AlfrescoUtils.AlfrescoStorePath alfPath = AlfrescoUtils.extractPath(filePath);
 
@@ -46,3 +48,34 @@ private void makeSomeStuff() {
 }
 
 ```
+
+## What works and what not
+
+| Class / Module   |  Method                                |  Status / Does work? |  
+| ---------------- | -------------------------------------- | ------------------- |
+| Auth             | `login`                                |  ✅ Works!          |
+| Auth             | `logout`                               |  ✅ Works!          |
+| Auth             | `validateTicket`                       |  ✅ Works!          |
+| Content          | `getNodeContent`                       |  ✅ Works!          |
+| Content          | `uploadDocument`                       |  ❌ Probably NOT!   |
+| Content          | `getNodeMetadata`                      |  ❔ Maybe           |
+| Content          | `storeNodeMetadata`                    |  ⚠ Should          |
+| Content          | `advancedSearch`                       |  ⚠ Should          |
+| Content          | `deleteDocument`                       |  ⚠ Should          |
+| Folder           | `createFolder`                         |  ⚠ Should          |
+| Folder           | `searchFolder`                         |  ❔ Maybe           |
+| Folder           | `createFolderByCmisAtomEntry`          |  ⚠ Should          |
+| Group            | `getGroups`                            |  ♋ Partial         |
+| Group            | `getRootGroups`                        |  ❌ Probably NOT!   |
+| Group            | `getChildAuthorities`                  |  ❌ Probably NOT!   |
+| Group            | `getParentAuthorities`                 |  ❌ Probably NOT!   |
+| Group            | `deleteGroup`                          |  ⚠ Should          |
+| Permission       | `setPermissions`                       |  ⚠ Should          |
+| Permission       | `readPermissions`                      |  ⚠ Should          |
+| Permission       | `setPermissions`                       |  ⚠ Should          |
+| User             | `getUsers`                             |  ⚠ Should          |
+| User             | `createUser`                           |  ⚠ Should          |
+| User             | `changePassword`                       |  ⚠ Should          |
+| User             | `deleteUser`                           |  ⚠ Should          |
+| User             | `updateUser`                           |  ⚠ Should          |
+| User             | `getUserHome`                          |  ⚠ Should          |

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Helpers related to HTTP Headers.
  *
- * @author Kamil Komorek (kkomorek@bluesoft.net.pl)
+ * @author Kamil Komorek (admin@dexterxx.pl)
  */
 public class HeadersUtil {
 
