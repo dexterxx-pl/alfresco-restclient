@@ -12,6 +12,7 @@ import feign.slf4j.Slf4jLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.dexterxx.dev.alfresco.commons.MediaType;
+import pl.dexterxx.dev.alfresco.feign.DocumentContentDecoder;
 import pl.dexterxx.dev.alfresco.feign.MultipleDecoder;
 
 import java.util.HashMap;
@@ -66,8 +67,9 @@ public abstract class Service<R extends Resource> {
      * @param restBaseUri the rest base uri
      */
     public Service(final String restBaseUri) {
-        this.supportedMediaTypes.put(MediaType.APPLICATION_XML_TYPE, new Decoder.Default()); // StringDecoder
+        this.supportedMediaTypes.put(MediaType.TEXT_XML_TYPE, new Decoder.Default()); // StringDecoder
         this.supportedMediaTypes.put(MediaType.APPLICATION_JSON_TYPE, new JacksonDecoder());
+        this.supportedMediaTypes.put(MediaType.WILDCARD_TYPE, new DocumentContentDecoder());
 
         this.restBaseUri = restBaseUri;
         this.resourceProxy = getResourceProxy(getResourceClass(), restBaseUri);
@@ -77,7 +79,7 @@ public abstract class Service<R extends Resource> {
     //private static void initializeProviderFactory() {
     //    try {
     //        final ResteasyProviderFactory providerFactory = ResteasyProviderFactory.getInstance();
-    //        registerResteasyProvider(providerFactory, DocumentContentProvider.class);
+    //        registerResteasyProvider(providerFactory, DocumentContentProvider.class); // FIXME done as DocumentContentDecoder
     //        registerResteasyProvider(providerFactory, HtmlBodyReader.class);
     //        registerResteasyProvider(providerFactory, MultipartFormAnnotationWriter.class);
     //        RegisterBuiltin.register(providerFactory);
@@ -132,7 +134,7 @@ public abstract class Service<R extends Resource> {
                 .options(new Request.Options(HTTP_CONNECTION_TIMEOUT, HTTP_SOCKET_TIMEOUT))
                 .errorDecoder(AnnotationErrorDecoder.builderFor(clazz).build())
                 .encoder(new FormEncoder(new JacksonEncoder()))
-                .decoder(new MultipleDecoder(supportedMediaTypes, MediaType.APPLICATION_XML_TYPE))
+                .decoder(new MultipleDecoder(supportedMediaTypes, MediaType.WILDCARD_TYPE))
                 .target(clazz, serverUri);
     }
 

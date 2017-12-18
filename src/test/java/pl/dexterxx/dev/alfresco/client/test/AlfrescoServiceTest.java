@@ -1,5 +1,6 @@
 package pl.dexterxx.dev.alfresco.client.test;
 
+import pl.dexterxx.dev.alfresco.commons.AlfrescoUtil;
 import pl.dexterxx.dev.alfresco.dto.AuthResponse;
 import pl.dexterxx.dev.alfresco.dto.Credentials;
 import pl.dexterxx.dev.alfresco.dto.common.GroupSorter;
@@ -33,10 +34,12 @@ import java.util.Map;
 public class AlfrescoServiceTest {
 
     private static final String BASE_URL = "http://localhost:5080";
-    private static final String AUTH_TICKET = "TICKET_6545adf481da58bb87490df0a7b75300d74921f5";
+    private static String authTicket;
 
     public static void main(final String args[]) {
         testLoginValidateLogout(getCredentials());
+
+        authTicket = testLoginValidate(getCredentials(), true);
         // testGetUsers();
         // testGetGroups();
         // testGetGroup();
@@ -48,7 +51,7 @@ public class AlfrescoServiceTest {
         // testChangeUserPassword();
         // testUpdateUser();
         // testGetUser();
-        // testGetContent();
+        testGetContent();
         // testAdvancedSearch();
         // testUploadContent();
         // testStoreMetadata();
@@ -56,7 +59,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testSearchFolder() {
-        final FolderService folderService = new FolderService(BASE_URL, AUTH_TICKET);
+        final FolderService folderService = new FolderService(BASE_URL, authTicket);
         try {
             System.out.println(
                     folderService.searchFolder("4f1a8cdb-e8e9-4987-bdf4-3e76fe2655d9", "cmis:name IN ('foo', 'bar')"));
@@ -68,7 +71,7 @@ public class AlfrescoServiceTest {
 
     private static void testStoreMetadata() {
         final ContentService contentService = new ContentService(BASE_URL,
-                AUTH_TICKET);
+                authTicket);
         final ContentMetadata contentMetadata = new ContentMetadata();
         final Map<String, String> properties = new HashMap<String, String>();
         properties.put("author", "SavedbyWindowsInternetExplorer8");
@@ -85,7 +88,7 @@ public class AlfrescoServiceTest {
 
     private static void testAdvancedSearch() {
         final ContentService contentService = new ContentService(BASE_URL,
-                AUTH_TICKET);
+                authTicket);
         // EVERYTHING EXCEPT FOR PROPCO CONTENT MODEL
         SearchRequest searchReuqest = new SearchRequest("@cm\\:author:\"SavedbyWindowsInternetExplorer8\"");
         // FOR PROPCO CONTENT MODEL
@@ -111,7 +114,7 @@ public class AlfrescoServiceTest {
 
     private static void testUploadContent() {
         final ContentService contentService = new ContentService(BASE_URL,
-                AUTH_TICKET);
+                authTicket);
         final ContentUploadForm uploadMetadata = new ContentUploadForm();
         final FileDataSource fileDataSource = new FileDataSource("C:\\Users\\Public\\Pictures\\Sample Pictures\\Desert.jpg");
         // FileDataSource fileDataSource = new FileDataSource("C:\\Users\\Public\\Pictures\\Sample Pictures\\Desert.jpg");
@@ -132,18 +135,20 @@ public class AlfrescoServiceTest {
 
     private static void testGetContent() {
         final ContentService contentService = new ContentService(BASE_URL,
-                AUTH_TICKET);
+                authTicket);
         try {
             // ba90e398-dc4f-4de8-a97d-e30669ebee6c DOCX
             // 27eb6ac6-abb3-4e31-be96-a97140ff641a DOC
-            System.out.println(contentService.getNodeContent("baf47bf6-0fa2-458e-b557-b38e3c2683fb"));
+            AlfrescoUtil.AlfrescoStorePath alfrescoStorePath = AlfrescoUtil
+                    .extractPath("workspace://SpacesStore/647e0d97-401e-48f0-8748-55d527456797");
+            System.out.println(contentService.getNodeContent(alfrescoStorePath.nodeId));
         } catch (final ContentException e) {
             e.printStackTrace();
         }
     }
 
     private static void testUpdateUser() {
-        final UserService userService = new UserService(BASE_URL, AUTH_TICKET);
+        final UserService userService = new UserService(BASE_URL, authTicket);
         final User user = new User();
         user.setCompanyaddress1("73, Sector 5");
         user.setCompanyaddress2("Manesar");
@@ -157,7 +162,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testChangeUserPassword() {
-        final UserService userService = new UserService(BASE_URL, AUTH_TICKET);
+        final UserService userService = new UserService(BASE_URL, authTicket);
         try {
             userService.changePassword("ajay", "ajay", "ajayd");
         } catch (final UserException e) {
@@ -166,7 +171,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testDeleteUser() {
-        final UserService userService = new UserService(BASE_URL, AUTH_TICKET);
+        final UserService userService = new UserService(BASE_URL, authTicket);
         try {
             userService.deleteUser("ajay");
         } catch (final UserException e) {
@@ -175,7 +180,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testCreateUser() {
-        final UserService userService = new UserService(BASE_URL, AUTH_TICKET);
+        final UserService userService = new UserService(BASE_URL, authTicket);
         final AddUser user = getMockUser();
         try {
             System.out.println(userService.createUser(user));
@@ -200,7 +205,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testGetParentAuthorities() {
-        final GroupService userService = new GroupService(BASE_URL, AUTH_TICKET);
+        final GroupService userService = new GroupService(BASE_URL, authTicket);
         try {
             final AuthorityQuery authorityQuery = new AuthorityQuery();
             authorityQuery.setSortBy(GroupSorter.AUTHORITY_NAME);
@@ -212,7 +217,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testGetChildAuthorities() {
-        final GroupService userService = new GroupService(BASE_URL, AUTH_TICKET);
+        final GroupService userService = new GroupService(BASE_URL, authTicket);
         try {
             final AuthorityQuery authorityQuery = new AuthorityQuery();
             authorityQuery.setSortBy(GroupSorter.AUTHORITY_NAME);
@@ -224,7 +229,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testGetGroup() {
-        final GroupService userService = new GroupService(BASE_URL, AUTH_TICKET);
+        final GroupService userService = new GroupService(BASE_URL, authTicket);
         try {
             System.out.println(userService.getGroup("ALFRESCO_ADMINISTRATORS"));
         } catch (final GroupException e) {
@@ -233,7 +238,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testGetGroups() {
-        final GroupService userService = new GroupService(BASE_URL, AUTH_TICKET);
+        final GroupService userService = new GroupService(BASE_URL, authTicket);
         try {
             final GroupQuery groupQuery = new GroupQuery();
             System.out.println(userService.getGroups(groupQuery));
@@ -243,7 +248,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testGetUser() {
-        final UserService userService = new UserService(BASE_URL, AUTH_TICKET);
+        final UserService userService = new UserService(BASE_URL, authTicket);
         try {
             System.out.println(userService.getUser("ajay"));
         } catch (final UserException e) {
@@ -252,7 +257,7 @@ public class AlfrescoServiceTest {
     }
 
     private static void testGetUsers() {
-        final UserService userService = new UserService(BASE_URL, AUTH_TICKET);
+        final UserService userService = new UserService(BASE_URL, authTicket);
         try {
             System.out.println(userService.getUsers("A", 2));
         } catch (final UserException e) {
@@ -260,18 +265,32 @@ public class AlfrescoServiceTest {
         }
     }
 
-    private static void testLoginValidateLogout(final Credentials credentials) {
+    private static String testLoginValidateLogout(final Credentials credentials) {
+        return testLoginValidate(credentials, false);
+    }
+
+    private static String testLoginValidate(final Credentials credentials, boolean onlyLogin) {
         final AuthService authService = new AuthService(BASE_URL, credentials);
         try {
             final AuthResponse token = authService.login();
             System.out.println("Auth Token: " + token);
             final String valid = authService.validateTicket(token.getAuthenticationData().getAuthenticationToken());
             System.out.println("Validation: " + valid);
-            final ServiceResponse logout = authService.logout(token.getAuthenticationData().getAuthenticationToken());
-            System.out.println("Logout: " + logout);
+
+            if (!token.getAuthenticationData().getAuthenticationToken().equals(valid)) {
+                throw new AuthenticationException("Validation not equals response token");
+            }
+
+            if (!onlyLogin) {
+                final ServiceResponse logout = authService.logout(token.getAuthenticationData().getAuthenticationToken());
+                System.out.println("Logout: " + logout);
+            }
+
+            return valid;
         } catch (final AuthenticationException e) {
             e.printStackTrace();
         }
+        return "exc";
     }
 
     private static Credentials getCredentials() {

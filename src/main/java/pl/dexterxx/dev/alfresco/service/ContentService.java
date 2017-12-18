@@ -2,6 +2,7 @@ package pl.dexterxx.dev.alfresco.service;
 
 import feign.error.ErrorHandling;
 import pl.dexterxx.dev.alfresco.commons.AlfrescoConstants;
+import pl.dexterxx.dev.alfresco.commons.AlfrescoUtil;
 import pl.dexterxx.dev.alfresco.dto.content.ContentMetadata;
 import pl.dexterxx.dev.alfresco.dto.content.ContentNode;
 import pl.dexterxx.dev.alfresco.dto.content.ContentUploadForm;
@@ -71,6 +72,7 @@ public class ContentService extends AbstractService<ContentResource> {
 
     /**
      * Gets the node content.
+     * TODO(dexterxx) alias with whole path & {@link AlfrescoUtil#extractPath(String)}
      *
      * @param nodeId the node id
      * @return the node content

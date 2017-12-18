@@ -1,5 +1,7 @@
 package pl.dexterxx.dev.alfresco.commons;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
@@ -9,7 +11,7 @@ import java.util.TreeMap;
  * A copy of {@link javax.ws.rs.core.MediaType} without delegates.
  * (Avoid's static RuntimeDelegate which is not provided and provides some workarounds)
  *
- * @author Kamil Komorek (kkomorek@bluesoft.net.pl)
+ * @author Kamil Komorek (admin@dexterxx.pl)
  */
 public class MediaType {
 
@@ -146,6 +148,10 @@ public class MediaType {
      *                                  or is null
      */
     public static MediaType valueOf(String type) throws IllegalArgumentException {
+        if (StringUtils.isBlank(type)) {
+            throw new IllegalArgumentException("type came null");
+        }
+
         // Crop anything after content type, eg. encoding etc.
         String typeToSwitch = type;
         int withProps = type.indexOf(";");
@@ -177,8 +183,9 @@ public class MediaType {
             case TEXT_HTML:
                 return TEXT_HTML_TYPE;
             case WILDCARD:
-            default:
                 return WILDCARD_TYPE;
+            default:
+                return null;
         }
     }
 

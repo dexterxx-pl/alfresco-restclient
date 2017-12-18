@@ -6,6 +6,7 @@ import feign.codec.DecodeException;
 import feign.codec.Decoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.dexterxx.dev.alfresco.commons.HeadersUtil;
 import pl.dexterxx.dev.alfresco.commons.MediaType;
 
 import java.io.IOException;
@@ -45,26 +46,15 @@ public class MultipleDecoder implements Decoder {
 
     @Override
     public Object decode(Response response, Type type) throws IOException, DecodeException, FeignException {
-        Optional<String> first = response.headers().keySet().stream()
-                .filter(s -> s.equalsIgnoreCase("content-type"))
-                .findFirst();
+        Optional<String> contentType = HeadersUtil.findContentType(response.headers());
 
-        if (first.isPresent()) {
-            String headerKey = first.get();
-            String headerValue = response.headers().get(headerKey).stream()
-                    .collect(Collectors.joining(","));
-
-            MediaType matchedMediaType = MediaType.valueOf(headerValue);
+        if (contentType.isPresent()) {
+            MediaType matchedMediaType = MediaType.valueOf(contentType.get());
 
             if (matchedMediaType != null) {
                 Decoder decoder = decoderMap.getOrDefault(matchedMediaType, defaultDecoder);
+                log.debug("MultipleDecoder found for mediaType: {} decoder -> {}", matchedMediaType, decoder);
                 return decoder.decode(response, type);
-            }
-
-            for (Map.Entry<MediaType, Decoder> entry : decoderMap.entrySet()) {
-                if (entry.getKey().toString().contains(headerValue)) {
-                    return entry.getValue().decode(response, type);
-                }
             }
         } else {
             log.warn("MultipleDecoder not found content-type for request {}", response.request().toString());

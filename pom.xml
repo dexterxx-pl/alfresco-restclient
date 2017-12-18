@@ -25,6 +25,7 @@
         <openfeign.version>9.5.1</openfeign.version>
         <openfeign-annotation-error-decoder.version>1.0.3</openfeign-annotation-error-decoder.version>
         <openfeign-form.version>3.0.3</openfeign-form.version>
+        <commons-io.version>2.6</commons-io.version>
     </properties>
 
     <licenses>
@@ -84,6 +85,11 @@
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
             <version>${tika-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
         </dependency>
     </dependencies>
 
