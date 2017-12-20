@@ -19,6 +19,7 @@ public class AlfrescoUtil {
      *
      * @param xml full xml response
      * @return extracted content wrapped in xml's ticket tag
+     * @throws ParseException when ticket value cannot be resolved
      */
     public static String extractTicketFromXml(String xml) throws ParseException {
         try {

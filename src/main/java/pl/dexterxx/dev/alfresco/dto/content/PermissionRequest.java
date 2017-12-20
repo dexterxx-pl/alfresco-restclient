@@ -39,7 +39,6 @@ public class PermissionRequest extends BaseDto {
 
     /**
      * Sets the permissions. The permission must be in following format:
-     * <p>
      * <pre>
      *       "REMOVE;user3;All",
      *       "REMOVE;user2;All",
@@ -47,9 +46,8 @@ public class PermissionRequest extends BaseDto {
      * "ADD;GROUP_usergroup1;Consumer"
      * </pre>
      * <p>
-     * <p>
-     * The above example uses the following triplet to define a permission: </br>
-     * <b>[ADD|REMOVE];[USERNAME|GROUPNAME];PERMISSION</b> </br></br> Where the values are defined as: </br></br>
+     * The above example uses the following triplet to define a permission:
+     * <b>[ADD|REMOVE];[USERNAME|GROUPNAME];PERMISSION</b> Where the values are defined as:
      * <ul>
      * <li><b>ADD|REMOVE</b>: Do you want to add or remove the permission for this user/group? Any other value passed will
      * result in a 400 error.</li>
@@ -58,8 +56,8 @@ public class PermissionRequest extends BaseDto {
      * <li>
      * <b>PERMISSION</b>: The supported permissions options are defined in org.alfresco.service.cmr.security.PermissionService
      * or through custom extension to the permission model. Unknown permissions will result in a 400 error.</li>
-     * <ul>
-     * </br></br> See more at: http://jared.ottleys.net/uncategorized/alfresco-permissions-web-scripts#sthash.OWdDe3hR.dpuf
+     * </ul>
+     * See more at: http://jared.ottleys.net/uncategorized/alfresco-permissions-web-scripts#sthash.OWdDe3hR.dpuf
      *
      * @param permissions the new permissions
      */

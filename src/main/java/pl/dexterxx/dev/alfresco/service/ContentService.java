@@ -72,7 +72,7 @@ public class ContentService extends AbstractService<ContentResource> {
 
     /**
      * Gets the node content.
-     * TODO(dexterxx) alias with whole path & {@link AlfrescoUtil#extractPath(String)}
+     * TODO(dexterxx) alias with whole path {@link AlfrescoUtil#extractPath(String)}
      *
      * @param nodeId the node id
      * @return the node content

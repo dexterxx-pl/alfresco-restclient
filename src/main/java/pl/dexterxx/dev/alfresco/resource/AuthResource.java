@@ -53,7 +53,9 @@ public interface AuthResource extends Resource {
     /**
      * Validate ticket.
      *
-     * @param ticket the ticket
+     * @param ticket         the ticket
+     * @param authTicket     the ticket TODO(dexterxx) ??
+     * @param responseFormat response format which is requested to be returned by API
      * @return the client response
      */
     @GET

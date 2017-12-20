@@ -40,19 +40,19 @@ public class AlfrescoServiceTest {
         testLoginValidateLogout(getCredentials());
 
         authTicket = testLoginValidate(getCredentials(), true);
-        // testGetUsers();
+        testGetUsers();
         // testGetGroups();
-        // testGetGroup();
+        testGetGroup();
         // testGetChildAuthorities();
         // testGetParentAuthorities();
         // testDeleteUser();
         // testCreateUser();
-        // testGetUser();
         // testChangeUserPassword();
         // testUpdateUser();
-        // testGetUser();
+        testGetUser();
+        //testGetUserHome();
         testGetContent();
-        // testAdvancedSearch();
+        // !! testAdvancedSearch();
         // testUploadContent();
         // testStoreMetadata();
         // testSearchFolder();
@@ -90,7 +90,7 @@ public class AlfrescoServiceTest {
         final ContentService contentService = new ContentService(BASE_URL,
                 authTicket);
         // EVERYTHING EXCEPT FOR PROPCO CONTENT MODEL
-        SearchRequest searchReuqest = new SearchRequest("@cm\\:author:\"SavedbyWindowsInternetExplorer8\"");
+        SearchRequest searchReuqest = new SearchRequest("@cm\\:author:\"admin\"");
         // FOR PROPCO CONTENT MODEL
         // SearchRequest searchReuqest = new SearchRequest("cm:lastName=\"Jain\"");
         // final SearchRequest searchReuqest = new SearchRequest("+PATH:\"//cm:QA//*\" +@cm\\:lastName:\"Jain\"");
@@ -250,7 +250,16 @@ public class AlfrescoServiceTest {
     private static void testGetUser() {
         final UserService userService = new UserService(BASE_URL, authTicket);
         try {
-            System.out.println(userService.getUser("ajay"));
+            System.out.println(userService.getUser("admin"));
+        } catch (final UserException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void testGetUserHome() {
+        final UserService userService = new UserService(BASE_URL, authTicket);
+        try {
+            System.out.println(userService.getUserHome("admin"));
         } catch (final UserException e) {
             e.printStackTrace();
         }

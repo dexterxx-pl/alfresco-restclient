@@ -1,7 +1,7 @@
 alfresco-restclient
 ===================
 
-Rest client written in Java 8 to consume Alfresco RESTful services based on OpenFeign.
+Rest client written in Java 8 with OpenFeign to consume Alfresco RESTful services.
 
 It's fork of [techblue/alfresco-restclient](https://github.com/techblue/alfresco-restclient) project which:
 * Migrates from RestEasy to [OpenFeign](https://github.com/OpenFeign/feign)
@@ -12,6 +12,8 @@ It's fork of [techblue/alfresco-restclient](https://github.com/techblue/alfresco
 * Makes some freshness, cleanup etc. ;)
 
 **It may not be compatible with base project** and don't expect it will ever be.
+
+Tested (and used right now) only with Alfresco 4.2 version.
 
 ## Maven and releases
 
@@ -52,30 +54,32 @@ private void makeSomeStuff() {
 ## What works and what not
 
 | Class / Module   |  Method                                |  Status / Does work? |  
-| ---------------- | -------------------------------------- | ------------------- |
-| Auth             | `login`                                |  ✅ Works!          |
-| Auth             | `logout`                               |  ✅ Works!          |
-| Auth             | `validateTicket`                       |  ✅ Works!          |
-| Content          | `getNodeContent`                       |  ✅ Works!          |
-| Content          | `uploadDocument`                       |  ❌ Probably NOT!   |
-| Content          | `getNodeMetadata`                      |  ❔ Maybe           |
-| Content          | `storeNodeMetadata`                    |  ⚠ Should          |
-| Content          | `advancedSearch`                       |  ⚠ Should          |
-| Content          | `deleteDocument`                       |  ⚠ Should          |
-| Folder           | `createFolder`                         |  ⚠ Should          |
-| Folder           | `searchFolder`                         |  ❔ Maybe           |
-| Folder           | `createFolderByCmisAtomEntry`          |  ⚠ Should          |
-| Group            | `getGroups`                            |  ♋ Partial         |
-| Group            | `getRootGroups`                        |  ❌ Probably NOT!   |
-| Group            | `getChildAuthorities`                  |  ❌ Probably NOT!   |
-| Group            | `getParentAuthorities`                 |  ❌ Probably NOT!   |
-| Group            | `deleteGroup`                          |  ⚠ Should          |
-| Permission       | `setPermissions`                       |  ⚠ Should          |
-| Permission       | `readPermissions`                      |  ⚠ Should          |
-| Permission       | `setPermissions`                       |  ⚠ Should          |
-| User             | `getUsers`                             |  ⚠ Should          |
-| User             | `createUser`                           |  ⚠ Should          |
-| User             | `changePassword`                       |  ⚠ Should          |
-| User             | `deleteUser`                           |  ⚠ Should          |
-| User             | `updateUser`                           |  ⚠ Should          |
-| User             | `getUserHome`                          |  ⚠ Should          |
+| ---------------- | -------------------------------------- | -------------------- |
+| Auth             | `login`                                |  ✅ Works!           |
+| Auth             | `logout`                               |  ✅ Works!           |
+| Auth             | `validateTicket`                       |  ✅ Works!           |
+| Content          | `getNodeContent`                       |  ✅ Works!           |
+| Content          | `uploadDocument`                       |  ❌ Probably NOT!    |
+| Content          | `getNodeMetadata`                      |  ❔ Maybe            |
+| Content          | `storeNodeMetadata`                    |  ⚠️ Should          |
+| Content          | `advancedSearch`                       |  ❌ Probably NOT!    |
+| Content          | `deleteDocument`                       |  ⚠️ Should          |
+| Folder           | `createFolder`                         |  ⚠️ Should          |
+| Folder           | `searchFolder`                         |  ❔ Maybe            |
+| Folder           | `createFolderByCmisAtomEntry`          |  ⚠️ Should          |
+| Group            | `getGroups`                            |  ♋ Partial          |
+| Group            | `getGroup`                             |  ✅ Works!           |
+| Group            | `getRootGroups`                        |  ❌ Probably NOT!    |
+| Group            | `getChildAuthorities`                  |  ❌ Probably NOT!    |
+| Group            | `getParentAuthorities`                 |  ❌ Probably NOT!    |
+| Group            | `deleteGroup`                          |  ⚠️ Should          |
+| Permission       | `setPermissions`                       |  ⚠️ Should          |
+| Permission       | `readPermissions`                      |  ⚠️ Should          |
+| Permission       | `setPermissions`                       |  ⚠️ Should          |
+| User             | `getUsers`                             |  ✅ Works!           |
+| User             | `getUser`                              |  ✅ Works!           |
+| User             | `createUser`                           |  ⚠️ Should          |
+| User             | `changePassword`                       |  ⚠️ Should          |
+| User             | `deleteUser`                           |  ⚠️ Should          |
+| User             | `updateUser`                           |  ⚠️ Should          |
+| User             | `getUserHome`                          |  ❌ Probably NOT!    |

@@ -55,7 +55,8 @@ public class FolderService extends AbstractService<FolderResource> {
     }
 
     /**
-     * this method is now deprecated in the alfresco.. =>it accepts cmis atom entry as the default input for it
+     * this method is now deprecated in the alfresco.. - it accepts cmis atom entry as the default input for it
+     * TODO(dexterxx) @Deprecated?
      *
      * @param nodeId               the node id
      * @param fileFolderRequestXml the folder creation request

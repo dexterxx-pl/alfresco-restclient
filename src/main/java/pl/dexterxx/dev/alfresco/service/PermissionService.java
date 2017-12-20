@@ -63,8 +63,12 @@ public class PermissionService extends AbstractService<PermissionResource> {
 
     /**
      * Sets the permissions.
+     * <p>
+     * TODO(dexterxx) @param folderName - genesis of parameter?
      *
-     * @param folderName TODO(dexterxx) ??
+     * @param authorityType authority type to set
+     * @param nodeId        node id on which set permission
+     * @param userGroupType TODO(dexterxx) ??
      * @return the string
      * @throws PermissionException the permission exception
      */
