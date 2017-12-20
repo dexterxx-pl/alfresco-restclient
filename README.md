@@ -15,9 +15,24 @@ It's fork of [techblue/alfresco-restclient](https://github.com/techblue/alfresco
 
 Tested (and used right now) only with Alfresco 4.2 version.
 
-## Maven and releases
+## Dependency
 
-Not published yet and it's **not ready for production** use, be patient.
+It's still in early development progress so remember - **use at own risk!**
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>pl.dexterxx.dev.alfresco</groupId>
+    <artifactId>alfresco-restclient</artifactId>
+    <version>1.3.0</version>
+</dependency>
+```
+### Gradle
+
+```
+compile 'pl.dexterxx.dev.alfresco:alfresco-restclient:1.3.0'
+```
 
 ## How to use (beta)
 
@@ -83,3 +98,13 @@ private void makeSomeStuff() {
 | User             | `deleteUser`                           |  ⚠️ Should          |
 | User             | `updateUser`                           |  ⚠️ Should          |
 | User             | `getUserHome`                          |  ❌ Probably NOT!    |
+
+## Changelog
+
+v1.3.0 - 2017-12-20
+* First public release after fork
+* TODO more info to place here
+
+## Contribute
+
+Feel free to pull requests ;).
