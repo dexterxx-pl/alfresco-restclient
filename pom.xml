@@ -1,31 +1,35 @@
-<!-- Copyright 2012 Technology Blueprint Ltd Licensed under the Apache License, 
-	Version 2.0 (the "License"); you may not use this file except in compliance 
-	with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
-	Unless required by applicable law or agreed to in writing, software distributed 
-	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
-	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
-	the specific language governing permissions and limitations under the License. -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>9</version>
-    </parent>
-    <groupId>uk.co.techblue</groupId>
-    <artifactId>alfresco-restclient</artifactId>
-    <version>1.2-SNAPSHOT</version>
 
-    <name>alfresco RESTful client</name>
+    <groupId>pl.dexterxx.dev.alfresco</groupId>
+    <artifactId>alfresco-restclient</artifactId>
+    <version>1.3.0</version>
     <packaging>jar</packaging>
-    <description>A client library to communicate with alfresco restful services </description>
-    <url>http://www.technologyblueprint.co.uk/</url>
+
+    <name>Alfresco RESTful client</name>
+    <description>A client library based on OpenFeign to communicate with Alfresco RESTful services.
+    </description>
+    <url>https://github.com/dexterxx-pl/alfresco-restclient/</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <resteasy.version>2.3.6.Final</resteasy.version>
-        <jackson.version>1.9.9</jackson.version>
+        <maven-compiler-plugin.jdk>1.8</maven-compiler-plugin.jdk>
+        <maven-compiler-plugin.encoding>UTF-8</maven-compiler-plugin.encoding>
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+
+        <jackson.version>2.9.3</jackson.version>
+        <commons-lang3.version>3.7</commons-lang3.version>
+        <slf4j-api.version>1.7.9</slf4j-api.version>
+        <tika-core.version>1.16</tika-core.version>
+        <openfeign.version>9.5.1</openfeign.version>
+        <openfeign-annotation-error-decoder.version>1.0.3</openfeign-annotation-error-decoder.version>
+        <openfeign-form.version>3.0.3</openfeign-form.version>
+        <commons-io.version>2.6</commons-io.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     </properties>
 
     <licenses>
@@ -35,77 +39,155 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <dependencies>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
-            <version>${resteasy.version}</version>
-            <scope>provided</scope>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+            <version>${openfeign.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jackson-provider</artifactId>
-            <version>${resteasy.version}</version>
-            <scope>provided</scope>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jackson</artifactId>
+            <version>${openfeign.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-multipart-provider</artifactId>
-            <version>${resteasy.version}</version>
-            <scope>provided</scope>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-jaxrs</artifactId>
+            <version>${openfeign.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-slf4j</artifactId>
+            <version>${openfeign.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-annotation-error-decoder</artifactId>
+            <version>${openfeign-annotation-error-decoder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openfeign.form</groupId>
+            <artifactId>feign-form</artifactId>
+            <version>${openfeign-form.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>jaxrs-api</artifactId>
-            <version>${resteasy.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
-            <scope>provided</scope>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-            <scope>provided</scope>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.4</version>
+            <version>${tika-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${maven-compiler-plugin.jdk}</source>
+                    <target>${maven-compiler-plugin.jdk}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus-staging-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
 
     <scm>
-        <connection>scm:git:git@github.com:techblue/alfresco-restclient.git</connection>
-        <developerConnection>scm:git:git@github.com:techblue/alfresco-restclient.git</developerConnection>
-        <url>https://github.com/techblue/alfresco-restclient</url>
+        <connection>scm:git:git@github.com:dexterxx-pl/alfresco-restclient.git</connection>
+        <developerConnection>scm:git:git@github.com:dexterxx-pl/alfresco-restclient.git</developerConnection>
+        <url>https://github.com/dexterxx-pl/alfresco-restclient</url>
     </scm>
+
     <developers>
+        <developer>
+            <name>Kamil Komorek</name>
+            <email>admin@dexterxx.pl</email>
+            <url>https://dev.dexterxx.pl</url>
+            <roles>
+                <role>Project Lead</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <!-- Below original project developers: https://github.com/techblue/alfresco-restclient -->
         <developer>
             <name>Ajay Deshwal</name>
             <email>ajay.deshwal@techblue.co.uk</email>
@@ -132,6 +214,7 @@
         </developer>
     </developers>
     <contributors>
+        <!-- Below original project contributors: https://github.com/techblue/alfresco-restclient -->
         <contributor>
             <name>Vik Tara</name>
             <email>vik@propco.co.uk</email>

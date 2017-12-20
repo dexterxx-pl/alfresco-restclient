@@ -1,3 +1,0 @@
-{
-"permissionStatus":"${permissionStatus}"
-}
